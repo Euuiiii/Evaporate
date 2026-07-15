@@ -1,0 +1,278 @@
+/* ==========================================================================
+   1. Reset & Global Variables
+   ========================================================================== */
+:root {
+    /* Surfaces */
+    --bg-primary: #14171c;
+    --bg-secondary: #1b1f26;
+    --bg-card: #1c2028;
+
+    /* Text */
+    --text-main: #e4e6eb;
+    --text-muted: #8a8f98;
+
+    /* Accent (used sparingly, no glow) */
+    --accent: #c8892c;
+    --accent-hover: #b87a24;
+
+    /* Status */
+    --success: #4caf7d;
+    --danger: #d9534f;
+
+    /* Structure */
+    --border-color: rgba(255, 255, 255, 0.07);
+    --radius: 6px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   2. Navigation Bar
+   ========================================================================== */
+nav {
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 24px;
+}
+
+nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    justify-content: flex-end;
+}
+
+nav li a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+nav li a:hover {
+    color: var(--text-main);
+}
+
+nav li a .nav-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    fill: currentColor;
+}
+
+nav li a.donate-link {
+    color: var(--accent);
+}
+
+nav li a.donate-link:hover {
+    color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   3. Header & Typography
+   ========================================================================== */
+.header-section {
+    text-align: center;
+    padding: 32px 0 12px 0;
+}
+
+header {
+    font-size: 1.9rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--text-main);
+}
+
+/* ==========================================================================
+   4. Instruction Box (Card Layout)
+   ========================================================================== */
+.instruction-box {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    max-width: 650px;
+    margin: 15px auto;
+    padding: 20px 24px;
+}
+
+.instruction-box p {
+    color: var(--text-main);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.instruction-box ol {
+    padding-left: 20px;
+}
+
+.instruction-box li {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.instruction-box strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   5. Main Work Area (Outer Container & Button)
+   ========================================================================== */
+.outer-container {
+    max-width: 650px;
+    width: 100%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+/* Primary action button — flat, confident, no glow */
+button {
+    width: 100%;
+    background-color: var(--accent);
+    color: #14171c;
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+button:hover {
+    background-color: var(--accent-hover);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* ==========================================================================
+   6. Session Audit Board
+   ========================================================================== */
+.audit-board {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    width: 100%;
+    padding: 24px;
+}
+
+.audit-board h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.audit-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.audit-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   7. Real-Time State Badges (Manipulated by JS/Backend)
+   ========================================================================== */
+.waiting,
+.active,
+.warning {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+.waiting {
+    color: var(--text-muted);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.active {
+    color: var(--success);
+    background-color: rgba(76, 175, 125, 0.12);
+}
+
+.warning {
+    color: var(--danger);
+    background-color: rgba(217, 83, 79, 0.12);
+}
+
+/* ==========================================================================
+   8. Console Footer
+   ========================================================================== */
+.console-footer {
+    margin-top: auto; /* Pushes footer to the absolute bottom */
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-console {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Simple status dot — steady, not pulsing */
+.pulse-dot {
+    width: 7px;
+    height: 7px;
+    background-color: var(--accent);
+    border-radius: 50%;
+}
+
+#console-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.version-tag {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}

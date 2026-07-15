@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaporate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="https://github.com/Euuiiii/Evaporate" target="_blank" rel="noopener">
+                    GitHub
+                </a></li>
+            <li><a href="" class="donate-link" target="_blank" rel="noopener">
+                    Donate
+                </a></li>
+        </ul>
+    </nav>
+
+    <div class="header-section">
+        <header>Evaporate</header>
+    </div>
+
+    <div class="instruction-box">
+        <p>Evaporate is a portable utility that completely erases your digital footprint from this computer.</p>
+
+        <ol>
+            <li><strong>Run the App:</strong> Double-click the executable directly from your USB drive.</li>
+            <li><strong>Evaporate Session:</strong> Click the main button to close browsers, wipe cookies, and shred
+                temporary files.</li>
+            <li><strong>Unmount & Go:</strong> Wait for the success message, unplug your USB, and walk away with total
+                peace of mind.</li>
+        </ol>
+    </div>
+
+    <div class="outer-container">
+        <button id="evp-btn"> Evaporate </button>
+
+        <section class="audit-board">
+            <h2>Session Audit</h2>
+
+            <div class="audit-row">
+                <span class="label">Browsers:</span>
+                <span id="browser-state" class="waiting">Checking... </span>
+            </div>
+
+            <div class="audit-row">
+                <span class="label"> Active Session Cookies: </span>
+                <span id="cookies-state" class="waiting">Scanning... </span>
+            </div>
+
+            <div class="audit-row">
+                <span class="label">Session Downloads:</span>
+                <span id="downloads-state" class="waiting">Scanning...</span>
+            </div>
+
+            <div class="audit-row">
+                <span class="label">System Clipboard:</span>
+                <span id="clipboard-state" class="waiting">Checking...</span>
+            </div>
+
+            <div class="audit-row">
+                <span class="label">USB Mount Status:</span>
+                <span id="usb-state" class="active">Mounted</span>
+            </div>
+
+        </section>
+    </div>
+
+    <footer class="console-footer">
+        <div class="status-console">
+            <span class="pulse-dot"></span>
+            <span id="console-text">STATUS: Ready to Sanitize</span>
+        </div>
+        <p class="version-tag">Evaporate v1.0 | Offline | Secure</p>
+    </footer>
+
+    <script src="ui.js" type="module"></script>
+</body>
+
+</html>
