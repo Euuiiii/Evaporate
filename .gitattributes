@@ -1,0 +1,4 @@
+*.css linguist-detectable=false
+*.html linguist-detectable=false
+package-lock.json linguist-detectable=false
+Cargo.lock linguist-detectable=false
