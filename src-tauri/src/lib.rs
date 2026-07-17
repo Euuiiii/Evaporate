@@ -61,6 +61,67 @@ fn wipe_browser_download_history(base_path: &PathBuf, is_gecko: bool) {
     }
 }
 
+fn wipe_downloads() -> Result<(), std::io::Error> {
+    // Windows Downloads 
+    #[cfg(target_os = "windows")] {
+        if let Ok(username) = env::var("USERNAME") {
+            // Fixed: Escaped backslash to prevent compilation error
+            let downloads_path = PathBuf::from("C:\\Users")
+                .join(&username)
+                .join("Downloads");
+            if downloads_path.exists() {
+                if let Ok(entries) = fs::read_dir(&downloads_path) {
+                    for entry in entries.flatten() {
+                        let path = entry.path();
+                        let _ = if path.is_dir() {
+                            fs::remove_dir_all(&path)
+                        } else {
+                            secure_wipe(&path)
+                        };
+                    }
+                }
+            }
+        }
+    }
+    // macOS Downloads 
+    #[cfg(target_os = "macos")] {
+        if let Ok(home) = env::var("HOME") {
+            let downloads_path = PathBuf::from(&home).join("Downloads");
+            if downloads_path.exists() {
+                if let Ok(entries) = fs::read_dir(&downloads_path) {
+                    for entry in entries.flatten() {
+                        let path = entry.path();
+                        let _ = if path.is_dir() {
+                            fs::remove_dir_all(&path)
+                        } else {
+                            secure_wipe(&path)
+                        };
+                    }
+                }
+            }
+        }
+    }
+    // Linux Downloads 
+    #[cfg(target_os = "linux")] {
+        if let Ok(home) = env::var("HOME") {
+            let downloads_path = PathBuf::from(&home).join("Downloads");
+            if downloads_path.exists() {
+                if let Ok(entries) = fs::read_dir(&downloads_path) {
+                    for entry in entries.flatten() {
+                        let path = entry.path();
+                        let _ = if path.is_dir() {
+                            fs::remove_dir_all(&path)
+                        } else {
+                            secure_wipe(&path)
+                        };
+                    }
+                }
+            }
+        }
+    }
+    Ok(())
+}
+
 #[tauri::command] 
 fn run_sanitize_routine() -> Result<String, String> {
     let local_app = env::var("LOCALAPPDATA").unwrap_or_default();

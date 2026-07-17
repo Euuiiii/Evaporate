@@ -279,3 +279,29 @@ button:active {
     font-size: 0.75rem;
     color: var(--text-muted);
 }
+
+.downloads-toggle-container {
+    margin: 20px 0;
+    text-align: left;
+    font-family: sans-serif;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #ffffff; /* Adjust based on your theme color */
+}
+
+.warning-box {
+    margin-top: 12px;
+    padding: 12px;
+    background-color: rgba(231, 76, 60, 0.15); /* Soft red background */
+    border: 1px solid #e74c3c;                  /* Sharp red border */
+    border-radius: 4px;
+    color: #e74c3c;                             /* Alert red text */
+    font-size: 0.85rem;
+    line-height: 1.4;
+}

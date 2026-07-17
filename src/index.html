@@ -37,6 +37,19 @@
     </div>
 
     <div class="outer-container">
+
+        <div class="downloads-toggle-container">
+            <label class="checkbox-label">
+                <input type="checkbox" id="wipe-downloads-checkbox">
+                Permanently wipe all files in my system Downloads folder
+            </label>
+            
+            <!-- Warning box that starts hidden -->
+            <div id="downloads-warning" class="warning-box" style="display: none;">
+                <strong>CRITICAL WARNING:</strong> This will permanently overwrite and shred <strong>all physical files and folders</strong> in your system's Downloads directory. These files CANNOT be recovered!
+            </div>
+        </div>
+
         <button id="evp-btn"> Evaporate </button>
 
         <section class="audit-board">
@@ -56,6 +69,8 @@
                 <span class="label">Session Downloads:</span>
                 <span id="downloads-state" class="waiting">Scanning...</span>
             </div>
+
+            
 
             <div class="audit-row">
                 <span class="label">System Clipboard:</span>

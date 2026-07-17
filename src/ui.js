@@ -1,5 +1,17 @@
 const { invoke } = window.__TAURI__.core;
 
+
+const checkBox = document.getElementById('wipe-downloads-checkbox');
+const warningBox = document.getElementById('downloads-warning');
+
+checkBox.addEventListener('change', (e) =>{
+    if(e.target.checked){
+        warningBox.style.display = 'block';
+    }else{
+        warningBox.style.display = 'none';
+    }
+})
+
 document.getElementById('evp-btn').addEventListener('click', async() => {
     updateStatus("Closing active browsers...")
 
@@ -8,6 +20,8 @@ document.getElementById('evp-btn').addEventListener('click', async() => {
     const downloadsState = document.getElementById('downloads-state');
     const clipboardState = document.getElementById('clipboard-state');
     const usbState = document.getElementById('usb-state')
+    
+    const shouldWipeDownloads = checkBox.checked;
 
     try{
         browserState.innerText = "Cleaning browser...";
@@ -16,10 +30,17 @@ document.getElementById('evp-btn').addEventListener('click', async() => {
         cookiesState.innerText = "Zeroing files...";
         cookiesState.className = "processing";
 
-        downloadsState.innerText = "Purging downloads...";
-        downloadsState.className = "processing";
+        if (shouldWipeDownloads) {
+            downloadsState.innerText = "Purging downloads...";
+            downloadsState.className = "processing";
+        } else {
+            downloadsState.innerText = "Skipping...";
+            downloadsState.className = "processing";
+        }
 
-        let result = await invoke('run_sanitize_routine');
+        let result = await invoke('run_sanitize_routine' , {
+            shouldWipeDownloads: shouldWipeDownloads
+        });
 
         browserState.innerText = "Cleared";
         browserState.className = "success";
@@ -27,8 +48,13 @@ document.getElementById('evp-btn').addEventListener('click', async() => {
         cookiesState.innerText = "Wiped & Shredded";
         cookiesState.className = "success";
 
-        downloadsState.innerText = "Purged";
-        downloadsState.className = "success";
+        if (shouldWipeDownloads) {
+            downloadsState.innerText = "Purged";
+            downloadsState.className = "success";
+        } else {
+            downloadsState.innerText = "Skipped";
+            downloadsState.className = "waiting";
+        }
 
         clipboardState.innerText = "Wiped";
         clipboardState.className = "success";
