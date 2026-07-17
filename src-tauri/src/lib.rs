@@ -31,13 +31,13 @@ fn wipe_matching_files_in_dir(dir: &Path, filename_target: &str) {
     }
 }
 
-fn clean_browser(win_proc: &str, unix_proc: &str, base_path: PathBuf, sub_target: &str, is_gecko: bool){
+fn clean_browser(_win_proc: &str, _unix_proc: &str, base_path: PathBuf, sub_target: &str, is_gecko: bool){
     #[cfg(target_os = "windows")]{
-        let _ = Command::new("taskkill").args(&["/F", "/IM", win_proc]).output();
+        let _ = Command::new("taskkill").args(&["/F", "/IM", _win_proc]).output();
     }
 
     #[cfg(any(target_os = "macos", target_os = "linux"))]{
-        let _ = Command::new("pkill").arg("-f").arg(unix_proc).output();
+        let _ = Command::new("pkill").arg("-f").arg(_unix_proc).output();
     }
 
     if base_path.exists(){
@@ -65,7 +65,6 @@ fn wipe_downloads() -> Result<(), std::io::Error> {
     // Windows Downloads 
     #[cfg(target_os = "windows")] {
         if let Ok(username) = env::var("USERNAME") {
-            // Fixed: Escaped backslash to prevent compilation error
             let downloads_path = PathBuf::from("C:\\Users")
                 .join(&username)
                 .join("Downloads");
@@ -124,36 +123,20 @@ fn wipe_downloads() -> Result<(), std::io::Error> {
 
 #[tauri::command] 
 fn run_sanitize_routine() -> Result<String, String> {
-    let local_app = env::var("LOCALAPPDATA").unwrap_or_default();
-    let app_data = env::var("APPDATA").unwrap_or_default();
-    let _home  = env::var("HOME").unwrap_or_default();
-
-// Chrome
-    #[cfg(target_os = "windows")] let chrome_base = PathBuf::from(&local_app).join("Google").join("Chrome").join("User Data");
-    #[cfg(target_os = "macos")] let chrome_base = PathBuf::from(&home).join("Library").join("Application Support").join("Google").join("Chrome");
-    #[cfg(target_os = "linux")] let chrome_base = PathBuf::from(&home).join(".config").join("google-chrome");
-    clean_browser("chrome.exe", "chrome", chrome_base, "Default/Network/Cookies", false);
-
-// MIcrosoft edge
-    #[cfg(target_os = "windows")]
-    let edge_base = PathBuf::from(&local_app).join("Microsoft").join("Edge").join("User Data");
-    #[cfg(target_os = "macos")] 
-    let edge_base = PathBuf::from(&home).join("Library").join("Application Support").join("Microsoft Edge");
-    #[cfg(target_os = "linux")] 
-    let edge_base = PathBuf::from(&home).join(".config").join("microsoft-edge");
-    clean_browser("msedge.exe", "msedge", edge_base, "Default/Network/Cookies", false);
-
-// Firefox -> Gecko
-    #[cfg(target_os = "windows")] 
-    let ff_base = PathBuf::from(&app_data).join("Mozilla").join("Firefox").join("Profiles");
-    #[cfg(target_os = "macos")] 
-    let ff_base = PathBuf::from(&home).join("Library").join("Application Support").join("Firefox").join("Profiles");
-    #[cfg(target_os = "linux")] 
-    let ff_base = PathBuf::from(&home).join(".mozilla").join("firefox");
-    clean_browser("firefox.exe", "firefox", ff_base, "cookies.sqlite", true);
-
-// Wipe browser download history
+    // Windows Target Routine execution
     #[cfg(target_os = "windows")] {
+        let local_app = env::var("LOCALAPPDATA").unwrap_or_default();
+        let app_data = env::var("APPDATA").unwrap_or_default();
+
+        let chrome_base = PathBuf::from(&local_app).join("Google").join("Chrome").join("User Data");
+        clean_browser("chrome.exe", "chrome", chrome_base, "Default/Network/Cookies", false);
+
+        let edge_base = PathBuf::from(&local_app).join("Microsoft").join("Edge").join("User Data");
+        clean_browser("msedge.exe", "msedge", edge_base, "Default/Network/Cookies", false);
+
+        let ff_base = PathBuf::from(&app_data).join("Mozilla").join("Firefox").join("Profiles");
+        clean_browser("firefox.exe", "firefox", ff_base, "cookies.sqlite", true);
+
         let chrome_history = PathBuf::from(&local_app).join("Google").join("Chrome").join("User Data").join("Default");
         wipe_browser_download_history(&chrome_history, false);
         
@@ -161,7 +144,19 @@ fn run_sanitize_routine() -> Result<String, String> {
         wipe_browser_download_history(&edge_history, false);
     }
     
+    // macOS Target Routine execution
     #[cfg(target_os = "macos")] {
+        let home = env::var("HOME").unwrap_or_default();
+
+        let chrome_base = PathBuf::from(&home).join("Library").join("Application Support").join("Google").join("Chrome");
+        clean_browser("chrome.exe", "chrome", chrome_base, "Default/Network/Cookies", false);
+
+        let edge_base = PathBuf::from(&home).join("Library").join("Application Support").join("Microsoft Edge");
+        clean_browser("msedge.exe", "msedge", edge_base, "Default/Network/Cookies", false);
+
+        let ff_base = PathBuf::from(&home).join("Library").join("Application Support").join("Firefox").join("Profiles");
+        clean_browser("firefox.exe", "firefox", ff_base, "cookies.sqlite", true);
+
         let chrome_history = PathBuf::from(&home).join("Library").join("Application Support").join("Google").join("Chrome").join("Default");
         wipe_browser_download_history(&chrome_history, false);
         
@@ -172,7 +167,19 @@ fn run_sanitize_routine() -> Result<String, String> {
         wipe_browser_download_history(&ff_history, true);
     }
     
+    // Linux Target Routine execution
     #[cfg(target_os = "linux")] {
+        let home = env::var("HOME").unwrap_or_default();
+
+        let chrome_base = PathBuf::from(&home).join(".config").join("google-chrome");
+        clean_browser("chrome.exe", "chrome", chrome_base, "Default/Network/Cookies", false);
+
+        let edge_base = PathBuf::from(&home).join(".config").join("microsoft-edge");
+        clean_browser("msedge.exe", "msedge", edge_base, "Default/Network/Cookies", false);
+
+        let ff_base = PathBuf::from(&home).join(".mozilla").join("firefox");
+        clean_browser("firefox.exe", "firefox", ff_base, "cookies.sqlite", true);
+
         let chrome_history = PathBuf::from(&home).join(".config").join("google-chrome").join("Default");
         wipe_browser_download_history(&chrome_history, false);
         
@@ -183,8 +190,7 @@ fn run_sanitize_routine() -> Result<String, String> {
         wipe_browser_download_history(&ff_history, true);
     }
 
-
-    
+    let _ = wipe_downloads();
 
     Ok("All selected targets wiped completely.".into())
 }
