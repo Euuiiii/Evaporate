@@ -61,7 +61,32 @@ Ensure you have the following installed on your machine:
     Launch the application environment in live development mode:
     npm run tauri dev
 
-## Contributing
+
+
+# OS Security & Installation Warnings
+
+Because these binary executables are community-driven, open-source builds that are not signed with commercial corporate code signing certificates, your operating system security filters will flag the app on initial startup. Follow these simple steps to clear the bypass:
+## Windows SmartScreen Bypass
+
+    Click More info on the blue warning popup dialogue.
+
+    Click the Run anyway button that appears at the bottom right corner.
+
+## macOS Gatekeeper Bypass
+
+    Open your Mac's System Settings and navigate over to Privacy & Security.
+
+    Scroll down to the Security section header.
+
+    Locate the note stating "Evaporate was blocked from use because it is not from an identified developer" and click Open Anyway.
+
+    Confirm with your system password and launch.
+
+## Linux Execution
+
+Linux distributions do not enforce corporate developer signing restrictions. Simply install the .deb package setup file or launch the executable binary package directly within your terminal window shell.
+
+# Contributing
 
 We welcome community optimization suggestions! If you want to dive into the codebase:
 
