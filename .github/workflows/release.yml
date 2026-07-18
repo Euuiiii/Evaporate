@@ -38,7 +38,10 @@ jobs:
             librsvg2-dev \
             patchelf \
             pkg-config \
-            libdbus-1-dev
+            libdbus-1-dev \
+            libfuse2 \
+            desktop-file-utils \
+            appstream-util
           
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
