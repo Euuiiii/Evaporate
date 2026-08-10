@@ -1,6 +1,5 @@
 const { invoke } = window.__TAURI__.core;
 
-
 const checkBox = document.getElementById('wipe-downloads-checkbox');
 const warningBox = document.getElementById('downloads-warning');
 

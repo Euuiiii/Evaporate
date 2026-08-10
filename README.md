@@ -32,6 +32,25 @@ I built Evaporate to eliminate that exact anxiety. Instead of manually digging t
 
 ---
 
+## Future Roadmap
+
+We are actively expanding Evaporate's capabilities to provide deeper sanitization and a seamless user experience. Here's what's on the horizon:
+
+### Advanced Sanitization & Shredding
+- [ ] **Multi-Pass Erasure Algorithms** - configurable deletion standards, including DoD 5220.22-M (3-pass) and cryptographically secure random fills (`rand::thread_rng`)
+- [ ] **In-Place SQLite Scrubbing** - selectively clean specific session rows and cookies without corrupting browser profiles
+
+###  System & Browser Support
+- [ ] **Extended Browser Coverage** - native support for Brave, Opera, Vivaldi, Arc, and Tor Browser
+- [ ] **OS Footprint Purge** - one-click clipboard wipe, temp folder (`%TEMP%` / `/tmp`) purge, and DNS cache flush (`ipconfig /flushdns`)
+
+### User Experience & Tools
+- [ ] **Scan & Preview Mode** - pre-wipe dashboard showing files, cookies, and disk space targeted before execution
+- [ ] **Drag-and-Drop File Shredder** - dedicated UI drop zone to shred individual files/folders on demand
+- [ ] **Panic Shortcut** - configurable global hotkey (e.g. `Ctrl + Shift + E`) to trigger an immediate background wipe and app exit
+
+---
+
 ##  Tech Stack
 
 * **Frontend:** Vanilla HTML5, CSS3, JavaScript (ES6+)
